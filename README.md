@@ -1,36 +1,74 @@
-# Anonymous Support Bot
+# 🛡️ Анонімний Telegram-бот для підтримки (Support Bot)
 
-A production-ready Telegram bot for anonymous customer support, built with Python 3.11+, aiogram 3.x, and async SQLAlchemy.
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
-## Features
-- **Anonymous Messaging**: Users can send messages to the bot securely.
-- **Multi-Agent Ticket System**: Support requests are broadcast to an admin group. Agents can "Claim" a ticket.
-- **Private Routing**: Once claimed, sessions are handled privately in the DM of the claiming agent.
-- **Media Support**: Supports forwarding of Text, Photos, Videos, Voice, Custom Stickers, and Documents.
-- **Blocking System**: Integrated `/ban` command for abusive users.
+Професійний асинхронний Telegram-бот для організації анонімного зв'язку між користувачами та службою підтримки. Ідеально підходить для зворотного зв'язку, консультацій або прийому скарг.
 
-## Setup Instructions
+## ✨ Ключові можливості
 
-### 1. Requirements
-Ensure you have Python 3.11+ installed.
+* **Багатокористувацька система тікетів:** Усі нові звернення надсилаються в чат адміністраторів. Адміни можуть "Взяти в роботу" заявку через інлайн-кнопку, щоб уникнути дублювання відповідей.
+* **Повна анонімність:** Бот працює як проксі. Адміністратори ніколи не бачать реальний профіль або юзернейм користувача.
+* **Приватні сесії:** Після прийняття заявки, спілкування відбувається безпосередньо між закріпленим адміністратором та користувачем.
+* **Підтримка всіх медіа:** Бот без проблем пересилає текст, фотографії, відео, документи та голосові повідомлення в обох напрямках.
+* **Захист від спаму:** Вбудована система блокування неадекватних користувачів.
 
-### 2. Install Dependencies
+## 🛠 Технологічний стек
+
+* **Мова:** Python 3.11+
+* **Фреймворк:** aiogram 3.x
+* **База даних:** SQLAlchemy (Async) + SQLite
+* **Деплой:** Docker & Docker Compose
+
+## 🚀 Як запустити локально
+
+1. **Клонуйте репозиторій:**
+   ```bash
+   git clone [https://github.com/arsen2010arsen/anon-support-bot-tg.git](https://github.com/arsen2010arsen/anon-support-bot-tg.git)
+   cd anon-support-bot-tg
+   ```
+
+2. **Встановіть залежності:**
+   Рекомендується створити віртуальне середовище:
+   ```bash
+   python -m venv venv
+   # Активація для Windows: venv\Scripts\activate
+   # Активація для Mac/Linux: source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. **Налаштуйте змінні оточення:**
+   Перейменуйте файл `.env.example` на `.env` (або створіть новий) і додайте свої дані:
+   ```env
+   BOT_TOKEN=ваш_токен_від_BotFather
+   ADMIN_GROUP_ID=-100ваша_група_адмінів
+   ```
+
+4. **Запустіть бота:**
+   ```bash
+   python -m bot.main
+   ```
+
+## 🐳 Запуск через Docker (Рекомендовано)
+
+Якщо у вас встановлений Docker, запустити проект можна однією командою:
 ```bash
-pip install -r requirements.txt
+docker-compose up -d --build
 ```
 
-### 3. Environment Configuration
-1. Rename `.env.example` to `.env`.
-2. Add your Telegram Bot Token from BotFather.
-3. Add the `ADMIN_GROUP_ID` (the numeric ID of the group where tickets will be broadcast). It should start with `-100`. To get it, add the bot to the group and use a userbot or debug bot.
+## 📖 Як користуватися (Інструкція)
 
-### 4. Running Locally
-Run the bot directly using Python:
-```bash
-python -m bot.main
-```
+### 👤 Для Користувачів (Клієнтів):
+1. Натисніть `/start` у діалозі з ботом.
+2. Напишіть своє запитання або надішліть файл.
+3. Очікуйте: як тільки адміністратор приєднається до чату, ви отримаєте сповіщення і зможете продовжити діалог.
 
-### 5. Running with Docker (Recommended)
-```bash
-docker-compose up --build -d
-```
+### 👨‍💻 Для Адміністраторів (Служби підтримки):
+1. Коли користувач пише боту, у вашу спільну **Групу Адмінів** приходить сповіщення з кнопкою **"Взяти в роботу"**.
+2. Натисніть її. Тепер цей клієнт закріплений за вами.
+3. Перейдіть в **особисті повідомлення з ботом**. Усі повідомлення, які ви напишете боту, будуть автоматично переслані вашому клієнту.
+4. **Команди адміністратора (в особистих з ботом):**
+   * `/close` — завершити поточну сесію з клієнтом (тікет закривається).
+   * `/ban` — заблокувати користувача (потрібно відповісти цією командою на будь-яке переслане повідомлення клієнта).
