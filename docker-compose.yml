@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  bot:
+    build: .
+    container_name: tg_anonim_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
